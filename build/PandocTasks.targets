@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<!-- default settings -->
+		<!-- Output dir: defaults to director of input file -->
+		<PandocOutputDir Condition="$(PandocOutputDir) == ''">%(RelativeDir)</PandocOutputDir>
+
+		<!-- Output format: defaults to html -->
+		<PandocOutputFormat Condition="$(PandocOutputFormat) == ''">html</PandocOutputFormat>
+	</PropertyGroup>
+	<PropertyGroup>
+		<!-- tweaking to the input settings -->
+		<!-- for pdf output, pandoc expects type set to latex -->
+		<PandocOutputFormat Condition="$(PandocOutputFormat) == 'pdf'">latex</PandocOutputFormat>
+
+		<!-- output extension, set according to input type -->
+		<PandocOutputExtension Condition="$(PandocOutputFormat) == 'html'">htm</PandocOutputExtension>
+		<PandocOutputExtension Condition="$(PandocOutputFormat) == 'markdown'">md</PandocOutputExtension>
+		<!-- latex input (used for pdf output) should have extension .pdf -->
+		<PandocOutputExtension Condition="$(PandocOutputFormat) == 'latex'">pdf</PandocOutputExtension>
+		<!-- use the input type as a fallback -->
+		<PandocOutputExtension Condition="$(PandocOutputExtension) == ''">$(PandocOutputFormat)</PandocOutputExtension>
+
+		<!-- function to get the complete output file path -->
+		<PandocOutputFile>@(Pandoc-&gt;'$(PandocOutputDir)%(Filename).$(PandocOutputExtension)')</PandocOutputFile>
+	</PropertyGroup>
+	<Target AfterTargets="Build" Name="Pandoc" Outputs="%(Pandoc.Identity)">
+		<!-- execute pandoc.exe for each input file -->
+		<Exec Condition="%(Pandoc.Identity) != ''" Command="&quot;$(MSBuildThisFileDirectory)pandoc.exe&quot; &quot;%(Pandoc.Identity)&quot; -t $(PandocOutputFormat) -s -o $(PandocArguments) &quot;$(PandocOutputFile)&quot;"/>
+	</Target>
+	<Target Name="CleanPandoc" Outputs="%(Pandoc.Identity)">
+		<Delete Condition="%(Pandoc.Identity) != ''" Files="$(PandocOutputFile)"/>
+	</Target>
+	<PropertyGroup>
+		<!-- clean pandoc output files when project is cleaned -->
+		<CleanDependsOn>$(CleanDependsOn);CleanPandoc;</CleanDependsOn>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- show Pandoc build action in Visual Studio -->
+		<AvailableItemName Include="Pandoc">
+			<Visible>false</Visible>
+		</AvailableItemName>
+	</ItemGroup>
+</Project>
