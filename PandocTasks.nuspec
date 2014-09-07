@@ -3,7 +3,7 @@
   <metadata>
     <id>PandocTasks</id>
     <title>Pandoc Build Task</title>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <authors>martinwiboe</authors>
     <owners>martinwiboe</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
@@ -12,7 +12,7 @@
     <description>Build action that transforms text files using pandoc. Transform markdown, LaTeX or docx to HTML or PDF during build.
 
 This project is just a wrapper around the awesome pandoc tool. See http://johnmacfarlane.net/pandoc/ for all the formats and options.</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>Fixed wrong argument order. Added option to include Table of Contents, defaults to true.</releaseNotes>
     <tags>pandoc markdown latex html pdf msbuild documentation</tags>
   </metadata>
   <files>

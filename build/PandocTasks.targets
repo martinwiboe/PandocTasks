@@ -7,6 +7,9 @@
 
 		<!-- Output format: defaults to html -->
 		<PandocOutputFormat Condition="$(PandocOutputFormat) == ''">html</PandocOutputFormat>
+
+		<!-- Include table of contents? : defaults to true -->
+		<PandocTableOfContents Condition="$(PandocTableOfContents) == ''">true</PandocTableOfContents>
 	</PropertyGroup>
 	<PropertyGroup>
 		<!-- tweaking to the input settings -->
@@ -21,12 +24,15 @@
 		<!-- use the input type as a fallback -->
 		<PandocOutputExtension Condition="$(PandocOutputExtension) == ''">$(PandocOutputFormat)</PandocOutputExtension>
 
+		<!-- command line argument to include table of contents -->
+		<PandocTocArgument Condition="$(PandocTableOfContents) == 'true'">--table-of-contents</PandocTocArgument>
+
 		<!-- function to get the complete output file path -->
 		<PandocOutputFile>@(Pandoc-&gt;'$(PandocOutputDir)%(Filename).$(PandocOutputExtension)')</PandocOutputFile>
 	</PropertyGroup>
 	<Target AfterTargets="Build" Name="Pandoc" Outputs="%(Pandoc.Identity)">
 		<!-- execute pandoc.exe for each input file -->
-		<Exec Condition="%(Pandoc.Identity) != ''" Command="&quot;$(MSBuildThisFileDirectory)pandoc.exe&quot; &quot;%(Pandoc.Identity)&quot; -t $(PandocOutputFormat) -s -o $(PandocArguments) &quot;$(PandocOutputFile)&quot;"/>
+		<Exec Condition="%(Pandoc.Identity) != ''" Command="&quot;$(MSBuildThisFileDirectory)pandoc.exe&quot; -t $(PandocOutputFormat) -s $(PandocTocArgument) $(PandocArguments) -o &quot;$(PandocOutputFile)&quot; &quot;%(Pandoc.Identity)&quot;"/>
 	</Target>
 	<Target Name="CleanPandoc" Outputs="%(Pandoc.Identity)">
 		<Delete Condition="%(Pandoc.Identity) != ''" Files="$(PandocOutputFile)"/>
