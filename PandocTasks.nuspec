@@ -2,10 +2,12 @@
 <package >
   <metadata>
     <id>PandocTasks</id>
+    <title>Pandoc Build Task</title>
     <version>0.1.0</version>
     <authors>martinwiboe</authors>
     <owners>martinwiboe</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/martinwiboe/PandocTasks</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Build action that transforms text files using pandoc. Transform markdown, LaTeX or docx to HTML or PDF during build.
 
