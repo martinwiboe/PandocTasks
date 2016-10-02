@@ -12,7 +12,7 @@
     <description>Build action that transforms text files using pandoc. Transform markdown, LaTeX or docx to HTML or PDF during build.
 
 This project is just a wrapper around the awesome pandoc tool. See http://johnmacfarlane.net/pandoc/ for all the formats and options.</description>
-    <releaseNotes>Fixed wrong argument order. Added option to include Table of Contents, defaults to true.</releaseNotes>
+    <releaseNotes>Updated Pandoc to version 1.17.2</releaseNotes>
     <tags>pandoc markdown latex html pdf msbuild documentation</tags>
   </metadata>
   <files>
