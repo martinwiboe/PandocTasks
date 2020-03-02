@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
 		<!-- default settings -->
@@ -10,6 +10,8 @@
 
 		<!-- Include table of contents? : defaults to true -->
 		<PandocTableOfContents Condition="$(PandocTableOfContents) == ''">true</PandocTableOfContents>
+		<!-- Define more command line arguments here like CSS for pandoc standalone HTML files.  -->
+		<!-- <PandocArguments>-c pandoc.css</PandocArguments> -->
 	</PropertyGroup>
 	<PropertyGroup>
 		<!-- tweaking to the input settings -->
@@ -32,7 +34,7 @@
 	</PropertyGroup>
 	<Target AfterTargets="Build" Name="Pandoc" Outputs="%(Pandoc.Identity)">
 		<!-- execute pandoc.exe for each input file -->
-		<Exec Condition="%(Pandoc.Identity) != ''" Command="&quot;$(MSBuildThisFileDirectory)pandoc.exe&quot; -t $(PandocOutputFormat) -s $(PandocTocArgument) $(PandocArguments) -o &quot;$(PandocOutputFile)&quot; &quot;%(Pandoc.Identity)&quot;"/>
+		<Exec Condition="%(Pandoc.Identity) != ''" Command="&quot;$(MSBuildThisFileDirectory)pandoc.exe&quot; -t $(PandocOutputFormat) -s $(PandocTocArgument) -o &quot;$(PandocOutputFile)&quot; $(PandocTocArgument) &quot;%(Pandoc.Identity)&quot; $(PandocArguments)" />
 	</Target>
 	<Target Name="CleanPandoc" Outputs="%(Pandoc.Identity)">
 		<Delete Condition="%(Pandoc.Identity) != ''" Files="$(PandocOutputFile)"/>
