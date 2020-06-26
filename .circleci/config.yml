@@ -10,8 +10,15 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - welcome/run:
-          filters:  # using regex filters requires the entire branch to match
-            branches:
-              only:  # only branches matching the below regex filters will run
-                - refs/pull/..?/merge
+    - run:
+      name: Checkout merge commit
+      command: |
+        set -ex
+        if [[ -n "${CIRCLE_PR_NUMBER}" ]]
+        then
+            FETCH_REFS="${FETCH_REFS}
+            +refs/pull/${CIRCLE_PR_NUMBER}/merge:pr/${CIRCLE_PR_NUMBER}/merge"
+            git fetch -u origin ${FETCH_REFS}
+            git checkout "pr/${CIRCLE_PR_NUMBER}/merge"
+        fi
+      - welcome/run
