@@ -10,7 +10,7 @@ workflows:
     welcome:
         # Run the welcome/run job in its own container
         jobs:
-            - welcome_job:
+            - welcome/run:
                 steps:
                     - run:
                         name: Checkout merge commit
@@ -23,5 +23,4 @@ workflows:
                                 git fetch -u origin ${FETCH_REFS}
                                 git checkout "pr/${CIRCLE_PR_NUMBER}/merge"
                             fi
-
-#    - welcome/run
+                            
