@@ -5,22 +5,25 @@ orbs:
   # Declare a dependency on the welcome-orb
   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
+jobs:
+  - checkout_pr_merge:
+    steps:
+      - run:
+        name: Checkout merge commit
+          command: |
+            set -ex
+            if [[ -n "${CIRCLE_PR_NUMBER}" ]]
+              then
+                FETCH_REFS="${FETCH_REFS}
+                +refs/pull/${CIRCLE_PR_NUMBER}/merge:pr/${CIRCLE_PR_NUMBER}/merge"
+                git fetch -u origin ${FETCH_REFS}
+                git checkout "pr/${CIRCLE_PR_NUMBER}/merge"
+              fi
+
 workflows:
     # Name the workflow "welcome"
     welcome:
         # Run the welcome/run job in its own container
         jobs:
-            - welcome/run:
-                steps:
-                    - run:
-                        name: Checkout merge commit
-                        command: |
-                            set -ex
-                            if [[ -n "${CIRCLE_PR_NUMBER}" ]]
-                            then
-                                FETCH_REFS="${FETCH_REFS}
-                                +refs/pull/${CIRCLE_PR_NUMBER}/merge:pr/${CIRCLE_PR_NUMBER}/merge"
-                                git fetch -u origin ${FETCH_REFS}
-                                git checkout "pr/${CIRCLE_PR_NUMBER}/merge"
-                            fi
-                            
+            - checkout_pr_merge
+            
