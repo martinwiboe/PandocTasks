@@ -7,6 +7,7 @@ orbs:
 # Orchestrate or schedule a set of jobs
 jobs:
   checkout_pr_merge:
+    machine: true
     steps:
       - run:
         name: Checkout merge commit
