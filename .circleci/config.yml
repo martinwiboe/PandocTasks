@@ -22,4 +22,4 @@ workflows:
             git checkout "pr/${CIRCLE_PR_NUMBER}/merge"
         fi
 
-    - welcome/run
+#    - welcome/run
