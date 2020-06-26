@@ -21,4 +21,5 @@ workflows:
             git fetch -u origin ${FETCH_REFS}
             git checkout "pr/${CIRCLE_PR_NUMBER}/merge"
         fi
-      - welcome/run
+
+    - welcome/run
